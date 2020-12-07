@@ -9,6 +9,6 @@ public interface ProductInterface {
 	public void delete(String p_id);
 	public List<ProductVO> findByProductName(String p_name);					// 搜尋用
 	public List<ProductVO> findByProductName(String p_name, String pt_id);		// 搜尋用
-	public List<ProductVO> findByStatus(String p_status);						// 審查用
+	public List<ProductVO> findByStatus(Integer p_status);						// 審查用
 	public List<ProductVO> getAll();
 }
