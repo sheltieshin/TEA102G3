@@ -14,11 +14,11 @@ public class ProductTypeJDBCDAO implements ProductTypeDAOInterface{
 
 
 	
-	public final String INSERT = "INSERT INTO PRODUCTTYPE (PT_ID,PT_PLATFORM,PT_KIND) VALUES ('PT' || LPAD(PRODUCTTYPE_SEQ.NEXTVAL, 5, 0), ?, ?)";
-	public final String UPDATE = "UPDATE PRODUCTTYPE SET PT_PLATFORM=?, PT_KIND=? WHERE PT_ID=?";
-	public final String DELETE = "DELETE FROM PRODUCTTYPE WHERE PT_ID=?";
-	public final String GETONE = "SELECT * FROM PRODUCTTYPE WHERE PT_ID=?";
-	public final String GETALL = "SELECT * FROM PRODUCTTYPE ORDER BY PT_ID";
+	private final String INSERT = "INSERT INTO PRODUCTTYPE (PT_ID,PT_PLATFORM,PT_KIND) VALUES ('PT' || LPAD(PRODUCTTYPE_SEQ.NEXTVAL, 5, 0), ?, ?)";
+	private final String UPDATE = "UPDATE PRODUCTTYPE SET PT_PLATFORM=?, PT_KIND=? WHERE PT_ID=?";
+	private final String DELETE = "DELETE FROM PRODUCTTYPE WHERE PT_ID=?";
+	private final String GETONE = "SELECT * FROM PRODUCTTYPE WHERE PT_ID=?";
+	private final String GETALL = "SELECT * FROM PRODUCTTYPE ORDER BY PT_ID";
 	
 	
 	public static void main(String[] args) {

@@ -17,11 +17,11 @@ public class ProductPictureJDBCDAO implements ProductPictureDAOInterface{
 
 
 	
-	public final String INSERT = "INSERT INTO ProductPicture (PP_ID,PP_PICTURE,P_ID) VALUES ('PP' || LPAD(ProductPicture_SEQ.NEXTVAL, 5, 0), ?, ?)";
-	public final String UPDATE = "UPDATE ProductPicture SET PP_PICTURE=? WHERE PP_ID=?";
-	public final String DELETE = "DELETE FROM ProductPicture WHERE PP_ID=?";
-	public final String GETONE = "SELECT * FROM ProductPicture WHERE PP_ID=?";
-	public final String GETALL = "SELECT * FROM ProductPicture ORDER BY PP_ID";
+	private final String INSERT = "INSERT INTO ProductPicture (PP_ID,PP_PICTURE,P_ID) VALUES ('PP' || LPAD(ProductPicture_SEQ.NEXTVAL, 5, 0), ?, ?)";
+	private final String UPDATE = "UPDATE ProductPicture SET PP_PICTURE=? WHERE PP_ID=?";
+	private final String DELETE = "DELETE FROM ProductPicture WHERE PP_ID=?";
+	private final String GETONE = "SELECT * FROM ProductPicture WHERE PP_ID=?";
+	private final String GETALL = "SELECT * FROM ProductPicture ORDER BY PP_ID";
 	
 	
 	public static void main(String[] args) {
