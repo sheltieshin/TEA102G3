@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,32 +13,102 @@ import com.data.database;
 public class ProductJDBCDAO implements ProductInterface{
 	
 	private final String INSERT = 
-			"INSERT INTO"
-			+ "PRODUCTTYPE (P_ID, P_NAME, P_PRICE, P_DETAIL, PT_ID, P_COUNT, P_ADDDATE, P_STATUS, M_ID) "
-			+ "VALUES ('P' || LPAD(PRODUCT_SEQ.NEXTVAL, 5, 0), ?, ?, ?, ?, ?, ?, ?, ?)";
+			"INSERT INTO PRODUCT (P_ID, P_NAME, P_PRICE, P_DETAIL, PT_ID, P_COUNT, P_ADDDATE, P_STATUS, M_ID) VALUES ('P' || LPAD(PRODUCT_SEQ.NEXTVAL, 5, 0), ?, ?, ?, ?, ?, ?, ?, ?)";
 	private final String UPDATE = 
-			"UPDATE PRODUCT SET P_NAME = ?, P_PRICE = ?, P_DETAIL = ?, PT_ID = ?, P_COUNT = ?, P_ADDDATE = ?, P_STATUS = ? WHERE P_ID = ?";
+			"UPDATE PRODUCT SET P_NAME = ?, P_PRICE = ?, P_DETAIL = ?, PT_ID = ?, P_COUNT = ?, P_REVISEDATE = ?, P_STATUS = ? WHERE P_ID = ?";
 	private final String DELETE =
-			"DELETE FORM PRODUCT WHERE P_ID = ?";
+			"DELETE FROM PRODUCT WHERE P_ID = ?";
 	private final String FINDBYPNAME =
-			"SELECT * FORM PRODUCT WHERE P_NAME = ?";
+			"SELECT * FROM PRODUCT WHERE P_NAME = ?";
 	private final String FINDBYPNAMETPYE =
-			"SELECT * FORM PRODUCT WHERE P_NAME = ?, PT_ID = ?";
+			"SELECT * FROM PRODUCT WHERE P_NAME = ? AND PT_ID = ?";
 	private final String FINDBYPSTATUS =
-			"SELECT * FORM PRODUCT WHERE P_STATUS= ?";
+			"SELECT * FROM PRODUCT WHERE P_STATUS= ?";
 	private final String GETALL =
-			"SELECT * FORM PRODUCT";
+			"SELECT * FROM PRODUCT";
 	
 	@Override
 	public void insert(ProductVO product) {
-		// TODO Auto-generated method stub
+
+		Connection con = null;
+		PreparedStatement ps = null;
 		
+		try {
+			Class.forName(database.DRIVER);
+			con = DriverManager.getConnection(database.URL, database.USER, database.PASSWORD);
+			ps = con.prepareStatement(INSERT);
+			
+			ps.setString(1, product.getP_name());
+			ps.setInt(2, product.getP_price());
+			ps.setString(3, product.getP_detail());
+			ps.setString(4, product.getPt_id());
+			ps.setInt(5, product.getP_count());
+			ps.setTimestamp(6, product.getP_addDate());
+			ps.setInt(7, product.getP_status());
+			ps.setString(8, product.getM_id());
+			
+			ps.executeQuery();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if(con != null) {
+					con.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
 	public void update(ProductVO product) {
-		// TODO Auto-generated method stub
 		
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		try {
+			Class.forName(database.DRIVER);
+			con = DriverManager.getConnection(database.URL, database.USER, database.PASSWORD);
+			ps = con.prepareStatement(UPDATE);
+			
+			ps.setString(1, product.getP_name());
+			ps.setInt(2, product.getP_price());
+			ps.setString(3, product.getP_detail());
+			ps.setString(4, product.getPt_id());
+			ps.setInt(5, product.getP_count());
+			ps.setTimestamp(6, product.getP_reviseDate());
+			ps.setInt(7, product.getP_status());
+			ps.setString(8, product.getP_id());
+			
+			ps.executeUpdate();
+		
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if(con != null) {
+					con.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
@@ -56,6 +127,21 @@ public class ProductJDBCDAO implements ProductInterface{
 		
 		} catch(Exception e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if(con != null) {
+					con.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}
@@ -93,6 +179,28 @@ public class ProductJDBCDAO implements ProductInterface{
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if(con != null) {
+					con.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return list;
 	}
@@ -111,7 +219,7 @@ public class ProductJDBCDAO implements ProductInterface{
 			ps = con.prepareStatement(FINDBYPNAMETPYE);
 			
 			ps.setString(1, p_name);
-			ps.setString(1, pt_id);
+			ps.setString(2, pt_id);
 			
 			rs = ps.executeQuery();
 			
@@ -132,6 +240,28 @@ public class ProductJDBCDAO implements ProductInterface{
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if(con != null) {
+					con.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return list;
 	}
@@ -169,6 +299,28 @@ public class ProductJDBCDAO implements ProductInterface{
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if(con != null) {
+					con.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return list;
 	}
@@ -205,6 +357,28 @@ public class ProductJDBCDAO implements ProductInterface{
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if(rs != null) {
+					rs.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if(ps != null) {
+					ps.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if(con != null) {
+					con.close();
+				}
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return list;
 	}
